@@ -24,11 +24,20 @@ class _HomePageState extends State<HomePage> {
 
   _body() {
     return Container(
+      margin: EdgeInsets.all(20) ,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment
             .stretch, // O stretch ocupa toda a largura (no caso do ícone não vai ocupar, pois ele tem um tamanho fixo)
         children: <Widget>[
           Icon(Icons.person, size: 120.0, color: Colors.yellow[900]),
+          TextField(keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: "Peso (kg)",
+            labelStyle: TextStyle(color: Colors.yellow[900]),
+          ),
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
+          )
         ],
       ),
     );
