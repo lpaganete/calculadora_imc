@@ -24,8 +24,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   _body() {
-    return Container(
-      margin: EdgeInsets.all(20),
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment
             .stretch, // O stretch ocupa toda a largura (no caso do ícone não vai ocupar, pois ele tem um tamanho fixo)
@@ -33,7 +33,18 @@ class _HomePageState extends State<HomePage> {
           Icon(Icons.person, size: 120.0, color: Colors.yellow[900]),
           TextFieldNumber("Peso (kg)"),
           TextFieldNumber("Altura (cm)"),
-          _raisedButtonCalcular(),
+          Padding(
+            padding: EdgeInsets.only(top: 30.0, bottom: 30.0),
+            child: Container(
+              height: 50.0,
+              child: _raisedButtonCalcular(),
+            ),
+          ),
+          Text(
+            "Info",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
+          ),
         ],
       ),
     );
