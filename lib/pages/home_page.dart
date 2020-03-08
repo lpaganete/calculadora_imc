@@ -11,6 +11,8 @@ class _HomePageState extends State<HomePage> {
   TextEditingController pesoController = TextEditingController();
   TextEditingController alturaController = TextEditingController();
 
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>(); //Chave global
+
   //Uma string que vai ser modificada com o resultado // Será chamada no Text que mostra o resultado do calculo
   String _infoText = "Informe seus dados!";
 
@@ -26,23 +28,24 @@ class _HomePageState extends State<HomePage> {
   //Esta função será chamada no onpressed no botão calcular
   void _calculandoIMC() {
     setState(() {
-      double peso = double.parse(pesoController.text); // converte o texto para double
+      double peso =
+          double.parse(pesoController.text); // converte o texto para double
       double altura = double.parse(alturaController.text) /
           100; // divindo por 100 para dar o resultado em cm
       double imc = peso / (altura * altura);
       print(imc);
       if (imc < 18.6) {
-        _infoText = "Abaixo do peso (${imc.toStringAsPrecision(3)})"; 
-      } else if (imc >=  18.6 && imc < 24.9){
-        _infoText = "Peso Ideal (${imc.toStringAsPrecision(3)})"; 
-      } else if (imc >=  24.6 && imc < 29.9){
-        _infoText = "levemente Acima do Peso (${imc.toStringAsPrecision(3)})"; 
-      } else if (imc >=  29.9 && imc < 34.9){
-        _infoText = "Obesidade Grau I(${imc.toStringAsPrecision(3)})"; 
-      } else if (imc >=  34.9 && imc < 39.9){
-        _infoText = "Obesidade Grau II (${imc.toStringAsPrecision(3)})"; 
-      } else if (imc >= 40.0){
-        _infoText = "Obesidade Grau III (${imc.toStringAsPrecision(3)})"; 
+        _infoText = "Abaixo do peso (${imc.toStringAsPrecision(3)})";
+      } else if (imc >= 18.6 && imc < 24.9) {
+        _infoText = "Peso Ideal (${imc.toStringAsPrecision(3)})";
+      } else if (imc >= 24.6 && imc < 29.9) {
+        _infoText = "levemente Acima do Peso (${imc.toStringAsPrecision(3)})";
+      } else if (imc >= 29.9 && imc < 34.9) {
+        _infoText = "Obesidade Grau I(${imc.toStringAsPrecision(3)})";
+      } else if (imc >= 34.9 && imc < 39.9) {
+        _infoText = "Obesidade Grau II (${imc.toStringAsPrecision(3)})";
+      } else if (imc >= 40.0) {
+        _infoText = "Obesidade Grau III (${imc.toStringAsPrecision(3)})";
       }
     });
   }
@@ -70,61 +73,80 @@ class _HomePageState extends State<HomePage> {
   _body() {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment
-            .stretch, // O stretch ocupa toda a largura (no caso do ícone não vai ocupar, pois ele tem um tamanho fixo)
-        children: <Widget>[
-          Icon(Icons.person, size: 120.0, color: Colors.yellow[900]),
-          textField_peso(),
-          textField_altura(),
-          Padding(
-            padding: EdgeInsets.only(top: 30.0, bottom: 30.0),
-            child: Container(
-              height: 50.0,
-              child: _raisedButtonCalcular(),
+      child: Form(
+        //Para serem feitas as validações é necessário se tenha um widget form
+        key: _formKey, // Declarando a chave global
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment
+              .stretch, // O stretch ocupa toda a largura (no caso do ícone não vai ocupar, pois ele tem um tamanho fixo)
+          children: <Widget>[
+            Icon(Icons.person, size: 120.0, color: Colors.yellow[900]),
+            textField_peso(),
+            textField_altura(),
+            Padding(
+              padding: EdgeInsets.only(top: 30.0, bottom: 30.0),
+              child: Container(
+                height: 50.0,
+                child: _raisedButtonCalcular(),
+              ),
             ),
-          ),
-          Text(
-            _infoText,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
-          ),
-        ],
+            Text(
+              _infoText,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  TextField textField_peso() {
-    return TextField(
-          controller: pesoController,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: "Peso (kg)",
-            labelStyle: TextStyle(color: Colors.yellow[900]),
-          ),
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
-        );
+  textField_peso() {
+    return TextFormField(
+      controller: pesoController,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: "Peso (kg)",
+        labelStyle: TextStyle(color: Colors.yellow[900]),
+      ),
+      textAlign: TextAlign.center,
+      style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
+      validator: (value) {
+        //Validando o formulário. caso o campo não esteja preenchido, ele retornará a msg
+        if (value.isEmpty) {
+          return "Insira seu Peso!";
+        }
+      },
+    );
   }
 
-  TextField textField_altura() {
-    return TextField(
+  textField_altura() {
+    return TextFormField(
       controller: alturaController,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: "Altura (cm)",
-            labelStyle: TextStyle(color: Colors.yellow[900]),
-          ),
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
-        );
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: "Altura (cm)",
+        labelStyle: TextStyle(color: Colors.yellow[900]),
+      ),
+      textAlign: TextAlign.center,
+      style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
+      validator: (value) {
+        //Validando o formulário. caso o campo não esteja preenchido, ele retornará a msg
+        if (value.isEmpty) {
+          return "Insira sua Altura!";
+        }
+      },
+    );
   }
-
-  
 
   _raisedButtonCalcular() {
     return RaisedButton(
-      onPressed: _calculandoIMC,
+      onPressed: () {
+        if (_formKey.currentState.validate()) {
+          // Função anonima aciona o validador. Se ele validar, ele chama a função que calcula o imc
+          _calculandoIMC();
+        }
+      },
       color: Colors.yellow[900],
       child: Text(
         "Calcular",
