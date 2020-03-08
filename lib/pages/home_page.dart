@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(icon: Icon(Icons.refresh), onPressed: () {}),
         ],
       ),
+      backgroundColor: Color(0xffffffff),
       body: _body(),
     );
   }
@@ -24,7 +25,11 @@ class _HomePageState extends State<HomePage> {
   _body() {
     return Container(
       child: Column(
-        children: <Widget>[],
+        crossAxisAlignment: CrossAxisAlignment
+            .stretch, // O stretch ocupa toda a largura (no caso do ícone não vai ocupar, pois ele tem um tamanho fixo)
+        children: <Widget>[
+          Icon(Icons.person, size: 120.0, color: Colors.yellow[900]),
+        ],
       ),
     );
   }
