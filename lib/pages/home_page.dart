@@ -18,7 +18,9 @@ class _HomePageState extends State<HomePage> {
   void _resetFields() {
     pesoController.text = "";
     alturaController.text = "";
-    _infoText = "Informe seus dados!";
+    setState(() {
+      _infoText = "Informe seus dados!";
+    });
   }
 
   //Esta função será chamada no onpressed no botão calcular
