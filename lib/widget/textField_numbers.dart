@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 
+
+/*
+*
+*   NÃO ESTA SENDO UTILIZADO AINDA. POIS NÃO CONSEGUI FAZER O WIDGET COM STATEFULL. SOMENTE COM STATELESS (COM ISSO, NÃO CONSIGO        ALTERAR O ESTADO DO TEXTFIELD)
+*
+*/
+
+
+
+
+
 class TextFieldNumber extends StatefulWidget {
 
   String text;
