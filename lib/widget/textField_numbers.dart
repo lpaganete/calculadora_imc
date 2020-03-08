@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class TextFieldNumber extends StatelessWidget {
   
   String text;
+  TextEditingController controller;
 
-  TextFieldNumber(this.text);
+  TextFieldNumber(this.text, {@required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: text,

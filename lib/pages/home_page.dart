@@ -7,6 +7,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  //Pegando os valores dos dois textField 
+  TextEditingController pesoController = TextEditingController(); 
+  TextEditingController alturaController = TextEditingController();
+
+  //Uma string que vai ser modificada com o resultado // Será chamada no Text que mostra o resultado do calculo
+  String _infoText = "Informe seus dados!";
+
+  // Função que limpa os campos text field e o de resultado. Será chamda no IconButton
+  void _resetFields(){
+    pesoController.text = "";
+    alturaController.text = "";
+    _infoText = "Informe seus dados!";
+  }
+
+  //Esta função será chamada no onpressed no botão calcular
+  void _calculandoIMC() {
+
+    setState(() {
+    double peso = double.parse(pesoController.text); // converte o texto para double
+    double altura = double.parse(alturaController.text) / 100; // divindo por 100 para dar o resultado em cm
+    double imc = peso / (altura * altura);
+    print(imc);
+    
+    if(imc < 18.6){
+      _infoText = "Abaixo do peso (${imc})";
+    }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +45,9 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.yellow[900],
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.refresh), onPressed: () {}),
+          IconButton(icon: Icon(Icons.refresh), 
+          onPressed: _resetFields, // Chama o método para zerar todas as variáveis
+          ),
         ],
       ),
       backgroundColor: Color(0xffffffff),
@@ -31,8 +63,8 @@ class _HomePageState extends State<HomePage> {
             .stretch, // O stretch ocupa toda a largura (no caso do ícone não vai ocupar, pois ele tem um tamanho fixo)
         children: <Widget>[
           Icon(Icons.person, size: 120.0, color: Colors.yellow[900]),
-          TextFieldNumber("Peso (kg)"),
-          TextFieldNumber("Altura (cm)"),
+          TextFieldNumber("Peso (kg)", controller: pesoController),
+          TextFieldNumber("Altura (cm)", controller: alturaController),
           Padding(
             padding: EdgeInsets.only(top: 30.0, bottom: 30.0),
             child: Container(
@@ -41,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Text(
-            "Info",
+            _infoText,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.yellow[900], fontSize: 25.0),
           ),
@@ -52,7 +84,7 @@ class _HomePageState extends State<HomePage> {
 
   _raisedButtonCalcular() {
     return RaisedButton(
-      onPressed: () {},
+      onPressed: _calculandoIMC,
       color: Colors.yellow[900],
       child: Text(
         "Calcular",
