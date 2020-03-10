@@ -1,4 +1,3 @@
-import 'package:calculadora_imc/widget/textField_numbers.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     alturaController.text = "";
     setState(() {
       _infoText = "Informe seus dados!";
+      _formKey = GlobalKey<FormState>(); // Ao clicar no botão de reset ele também resetará as mensagens de erro
     });
   }
 
